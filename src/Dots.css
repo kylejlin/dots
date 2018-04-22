@@ -1,0 +1,56 @@
+.Dots-header {
+  background-color: var(--dark-black);
+  color: var(--white);
+
+  position: fixed;
+
+  font-size: 5vh;
+  padding: 2.5vh;
+
+  width: 100vw;
+  height: 10vh;
+}
+
+.Dots-editor, .Dots-result {
+  position: fixed;
+}
+
+.Dots-editor {
+  background-color: var(--grey);
+}
+
+.Dots-result {
+  background-color: var(--black);
+}
+
+@media (orientation: landscape) {
+  .Dots-editor, .Dots-result {
+    width: 50vw;
+    height: 90vh;
+    top: 10vh;
+  }
+
+  .Dots-editor {
+    left: 0;
+  }
+
+  .Dots-result {
+    right: 0;
+  }
+}
+
+@media (orientation: portrait) {
+  .Dots-editor, .Dots-result {
+    width: 100vw;
+    height: 45vh;
+    left: 0;
+  }
+
+  .Dots-editor {
+    top: 10vh;
+  }
+
+  .Dots-result {
+    bottom: 0;
+  }
+}

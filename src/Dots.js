@@ -9,7 +9,17 @@ class Dots extends React.Component {
   render() {
     return (
       <div className="Dots">
+        <div className="Dots-header">
+          Dots - An SVG Editor
+        </div>
 
+        <div className="Dots-editor">
+
+        </div>
+
+        <div className="Dots-result">
+
+        </div>
       </div>
     )
   }
