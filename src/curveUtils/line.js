@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import path from "./path";
 
 const constant = x => () => x

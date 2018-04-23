@@ -67,7 +67,7 @@ class DotsEditor extends React.Component {
       data
     } = object
 
-    const { config, Dot } = this.state
+    const { Dot } = this.state
 
     switch (type) {
       case 'circle': {

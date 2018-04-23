@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 var pi = Math.PI,
     tau = 2 * pi,
     epsilon = 1e-6,
