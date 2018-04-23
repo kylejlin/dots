@@ -16,6 +16,7 @@ class DotsEditor extends React.Component {
       viewBox: [0, 0, 100, 100],
       objects: defaultObjects,
       selectedDot: null,
+      selectedObjectId: null,
       config: defaultConfig
     }
 
@@ -75,91 +76,129 @@ class DotsEditor extends React.Component {
 
         const radius = Math.hypot(cx - ex, cy - ey)
 
-        return [
-          <circle
-            fill={fill}
-            stroke={stroke}
-            r={radius}
-            cx={cx}
-            cy={cy}
-          />,
-          <Dot
-            x={cx}
-            y={cy}
-            id={objectId}
-            dataIndex={2}
-          />,
-          <Dot
-            x={ex}
-            y={ey}
-            id={objectId}
-            dataIndex={4}
-          />
-        ]
+        return this.state.selectedObjectId !== objectId
+          ? (
+            <circle
+              fill={fill}
+              stroke={stroke}
+              r={radius}
+              cx={cx}
+              cy={cy}
+              onClick={() => this.selectObject(objectId)}
+            />
+          )
+          : [
+            <circle
+              fill={fill}
+              stroke={stroke}
+              r={radius}
+              cx={cx}
+              cy={cy}
+              onClick={() => this.selectObject(null)}
+            />,
+            <Dot
+              x={cx}
+              y={cy}
+              id={objectId}
+              dataIndex={2}
+            />,
+            <Dot
+              x={ex}
+              y={ey}
+              id={objectId}
+              dataIndex={4}
+            />
+          ]
       }
       case 'straightPath': {
         const [fill, stroke, ...pathData] = data
         const offset = 2
 
-        return [
-          <path
-            fill={fill}
-            stroke={stroke}
-            d={calculateStraightPath(pathData)}
-          />
-        ].concat(
-          pathData.map(({}, i, pathData) => {
-            if (i % 2 === 1) {
-              return null
-            }
+        return this.state.selectedObjectId !== objectId
+          ? (
+            <path
+              fill={fill}
+              stroke={stroke}
+              d={calculateStraightPath(pathData)}
+              onClick={() => this.selectObject(objectId)}
+            />
+          )
+          : [
+            <path
+              fill={fill}
+              stroke={stroke}
+              d={calculateStraightPath(pathData)}
+              onClick={() => this.selectObject(null)}
+            />
+          ].concat(
+            pathData.map(({}, i, pathData) => {
+              if (i % 2 === 1) {
+                return null
+              }
 
-            const x = pathData[i]
-            const y = pathData[i + 1]
-            return (
-              <Dot
-                x={x}
-                y={y}
-                id={objectId}
-                dataIndex={offset + i}
-              />
-            )
-          })
-          .filter(thing => thing !== null)
-        )
+              const x = pathData[i]
+              const y = pathData[i + 1]
+              return (
+                <Dot
+                  x={x}
+                  y={y}
+                  id={objectId}
+                  dataIndex={offset + i}
+                />
+              )
+            })
+            .filter(thing => thing !== null)
+          )
       }
       case 'curvedPath': {
         const [fill, stroke, ...pathData] = data
         const offset = 2
 
-        return [
-          <path
-            fill={fill}
-            stroke={stroke}
-            d={calculateCurvedPath(pathData)}
-          />
-        ].concat(
-          pathData.map(({}, i, pathData) => {
-            if (i % 2 === 1) {
-              return null
-            }
+        return this.state.selectedObjectId !== objectId
+          ? (
+            <path
+              fill={fill}
+              stroke={stroke}
+              d={calculateCurvedPath(pathData)}
+              onClick={() => this.selectObject(objectId)}
+            />
+          )
+          : [
+            <path
+              fill={fill}
+              stroke={stroke}
+              d={calculateCurvedPath(pathData)}
+              onClick={() => this.selectObject(null)}
+            />
+          ].concat(
+            pathData.map(({}, i, pathData) => {
+              if (i % 2 === 1) {
+                return null
+              }
 
-            const x = pathData[i]
-            const y = pathData[i + 1]
-            return (
-              <Dot
-                x={x}
-                y={y}
-                id={objectId}
-                dataIndex={offset + i}
-              />
-            )
-          })
-          .filter(thing => thing !== null)
-        )
+              const x = pathData[i]
+              const y = pathData[i + 1]
+              return (
+                <Dot
+                  x={x}
+                  y={y}
+                  id={objectId}
+                  dataIndex={offset + i}
+                />
+              )
+            })
+            .filter(thing => thing !== null)
+          )
       }
       default:
         throw new TypeError('Illegal component: ' + type)
     }
+  }
+
+  selectObject = (objectId) => {
+    this.setState({
+      selectedObjectId: objectId
+    })
   }
 
   updateDots = (e) => {
