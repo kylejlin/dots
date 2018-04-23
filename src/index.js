@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Dots from './Dots';
+import DotsEditor from './DotsEditor';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<Dots />, document.getElementById('root'));
+ReactDOM.render(<DotsEditor />, document.getElementById('root'));
 registerServiceWorker();

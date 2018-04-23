@@ -1,11 +1,11 @@
 import React from 'react'
-import './Dots.css'
+import './DotsEditor.css'
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
 import calculateCurvedPath from './calculateCurvedPath'
 import calculateStraightPath from './calculateStraightPath'
 
-class Dots extends React.Component {
+class DotsEditor extends React.Component {
   state = {
     viewBox: [0, 0, 100, 100],
     objects: defaultObjects,
@@ -14,16 +14,16 @@ class Dots extends React.Component {
 
   render() {
     return (
-      <div className="Dots">
-        <div className="Dots-header">
-          Dots - An SVG Editor
+      <div className="DotsEditor">
+        <div className="DotsEditor-header">
+          DotsEditor - An SVG Editor
         </div>
 
-        <div className="Dots-editor">
+        <div className="DotsEditor-editor">
 
         </div>
 
-        <div className="Dots-result">
+        <div className="DotsEditor-result">
           <svg viewBox={this.state.viewBox.join(' ')}>
             {this.state.objects.map(this.renderObjects)}
           </svg>
@@ -80,4 +80,4 @@ class Dots extends React.Component {
   }
 }
 
-export default Dots
+export default DotsEditor

@@ -1,4 +1,4 @@
-.Dots-header {
+.DotsEditor-header {
   background-color: var(--dark-black);
   color: var(--white);
 
@@ -11,46 +11,46 @@
   height: 10vh;
 }
 
-.Dots-editor, .Dots-result {
+.DotsEditor-editor, .DotsEditor-result {
   position: fixed;
 }
 
-.Dots-editor {
+.DotsEditor-editor {
   background-color: var(--grey);
 }
 
-.Dots-result {
+.DotsEditor-result {
   background-color: var(--black);
 }
 
 @media (orientation: landscape) {
-  .Dots-editor, .Dots-result {
+  .DotsEditor-editor, .DotsEditor-result {
     width: 50vw;
     height: 90vh;
     top: 10vh;
   }
 
-  .Dots-editor {
+  .DotsEditor-editor {
     left: 0;
   }
 
-  .Dots-result {
+  .DotsEditor-result {
     right: 0;
   }
 }
 
 @media (orientation: portrait) {
-  .Dots-editor, .Dots-result {
+  .DotsEditor-editor, .DotsEditor-result {
     width: 100vw;
     height: 45vh;
     left: 0;
   }
 
-  .Dots-editor {
+  .DotsEditor-editor {
     top: 10vh;
   }
 
-  .Dots-result {
+  .DotsEditor-result {
     bottom: 0;
   }
 }
