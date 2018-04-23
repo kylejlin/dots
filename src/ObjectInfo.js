@@ -2,7 +2,7 @@ import React from 'react'
 import './ObjectInfo.css'
 import extractPairs from './misc/extractPairs'
 
-export default ({ object }) => {
+const ObjectInfo = ({ object }) => {
   const [fill, stroke, ...rest] = object.data
   const pairs = extractPairs(rest)
 
@@ -13,10 +13,12 @@ export default ({ object }) => {
       <div className="ObjectInfo-property">Stroke: {stroke || 'none'}</div>
       {pairs.map(pair => (
         <div className="ObjectInfo-property">
-          <input value={pairs[0]} />
-          <input value={pairs[1]} />
+          <input value={pair[0]} />
+          <input value={pair[1]} />
         </div>
       ))}
     </div>
   )
 }
+
+export default ObjectInfo
