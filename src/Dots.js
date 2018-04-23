@@ -3,6 +3,7 @@ import './Dots.css'
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
 import calculateCurvedPath from './calculateCurvedPath'
+import calculateStraightPath from './calculateStraightPath'
 
 class Dots extends React.Component {
   state = {
@@ -50,6 +51,16 @@ class Dots extends React.Component {
             r={cr}
             cx={cx}
             cy={cy}
+          />
+        ])
+      }
+      case 'straightPath': {
+        const [fill, stroke, ...pathData] = data
+        return ([
+          <path
+            fill={fill}
+            stroke={stroke}
+            d={calculateStraightPath(pathData)}
           />
         ])
       }
