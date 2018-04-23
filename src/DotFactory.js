@@ -3,7 +3,7 @@ import React from 'react'
 const DotFactory = (getState, setState) => {
   const { config } = getState()
 
-  return ({ id, dataIndex, x, y }) => (
+  const Dot = ({ id, dataIndex, x, y }) => (
     <circle
       fill={config.dotFill}
       stroke={config.dotStroke}
@@ -20,6 +20,8 @@ const DotFactory = (getState, setState) => {
       }}
     />
   )
+
+  return Dot
 }
 
 export default DotFactory
