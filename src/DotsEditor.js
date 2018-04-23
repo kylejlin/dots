@@ -6,6 +6,7 @@ import calculateCurvedPath from './calculateCurvedPath'
 import calculateStraightPath from './calculateStraightPath'
 import DotFactory from './DotFactory'
 import convertClientToLocal from './convertClientToLocal'
+import ObjectInfo from './ObjectInfo'
 
 class DotsEditor extends React.Component {
   constructor(props) {
@@ -34,7 +35,9 @@ class DotsEditor extends React.Component {
         </div>
 
         <div className="DotsEditor-editor">
-
+          {this.state.objects.map((object) => (
+            <ObjectInfo object={object} key={object.id} />
+          ))}
         </div>
 
         <div className="DotsEditor-result">

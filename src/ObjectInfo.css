@@ -1,0 +1,17 @@
+.ObjectInfo {
+  background-color: var(--white);
+  color: var(--black);
+
+  border-radius: 3vh;
+
+  margin: 1vh;
+  padding: 2vh;
+}
+
+.ObjectInfo-header {
+  font-size: 4vh;
+}
+
+.ObjectInfo-property, .ObjectInfo-property input {
+  font-size: 2.5vh;
+}

@@ -13,6 +13,8 @@
 
 .DotsEditor-editor, .DotsEditor-result {
   position: fixed;
+
+  overflow: auto;
 }
 
 .DotsEditor-editor {
