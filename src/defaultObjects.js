@@ -2,7 +2,7 @@ export default [
   {
     type: 'circle',
     id: 0,
-    data: ['orange', null, 50, 50, 50]
+    data: ['orange', null, 50, 50, 100, 50]
   },
   {
     type: 'curvedPath',
