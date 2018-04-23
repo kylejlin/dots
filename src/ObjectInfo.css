@@ -8,6 +8,11 @@
   padding: 2vh;
 }
 
+.ObjectInfo.ObjectInfo-selected {
+  background-color: var(--blue);
+  color: var(--white);
+}
+
 .ObjectInfo-header {
   font-size: 4vh;
 }

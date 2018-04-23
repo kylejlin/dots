@@ -37,7 +37,15 @@ class DotsEditor extends React.Component {
 
         <div className="DotsEditor-editor">
           {this.state.objects.map((object) => (
-            <ObjectInfo object={object} key={object.id} />
+            <ObjectInfo
+              object={object}
+              key={object.id}
+              isSelected={object.id === this.state.selectedObjectId}
+              onClick={object.id !== this.state.selectedObjectId
+                ? () => this.selectObject(object.id)
+                : () => this.selectObject(null)
+              }
+            />
           ))}
         </div>
 
