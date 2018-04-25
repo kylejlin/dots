@@ -15,7 +15,7 @@ class DotsEditor extends React.Component {
     this.state = {
       viewBox: [0, 0, 100, 100],
       objects: defaultObjects,
-      selectedDot: null,
+      draggedDot: null,
       selectedObjectId: null,
       config: defaultConfig
     }
@@ -71,7 +71,7 @@ class DotsEditor extends React.Component {
 
   clearDotSelection = () => {
     this.setState({
-      selectedDot: null
+      draggedDot: null
     })
   }
 
@@ -218,14 +218,14 @@ class DotsEditor extends React.Component {
   updateDots = (e) => {
     const { clientX, clientY } = e
 
-    const { selectedDot } = this.state
-    if (selectedDot === null) {
+    const { draggedDot } = this.state
+    if (draggedDot === null) {
       return
     }
 
     this.setState((prevState) => ({
       objects: prevState.objects.map((object) => {
-        if (selectedDot.id === object.id) {
+        if (draggedDot.id === object.id) {
           const newCoords = convertClientToLocal(
             [clientX, clientY],
             this.svgRef.current
@@ -234,9 +234,9 @@ class DotsEditor extends React.Component {
           return {
             ...object,
             data: object.data
-              .slice(0, selectedDot.dataIndex)
+              .slice(0, draggedDot.dataIndex)
               .concat(newCoords)
-              .concat(object.data.slice(selectedDot.dataIndex + 2))
+              .concat(object.data.slice(draggedDot.dataIndex + 2))
           }
         }
         return object

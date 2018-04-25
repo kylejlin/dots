@@ -12,7 +12,7 @@ const DotFactory = (getState, setState) => {
       cy={y}
       onMouseDown={() => {
         setState({
-          selectedDot: {
+          draggedDot: {
             id,
             dataIndex
           }
