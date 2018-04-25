@@ -17,6 +17,7 @@ class DotsEditor extends React.Component {
       objects: defaultObjects,
       draggedDot: null,
       selectedObjectId: null,
+      selectedDot: null,
       config: defaultConfig
     }
 
@@ -41,12 +42,18 @@ class DotsEditor extends React.Component {
               object={object}
               key={object.id}
               isSelected={object.id === this.state.selectedObjectId}
+              selectedDot={this.state.selectedDot}
+              selectDot={this.selectDot}
               onClick={object.id !== this.state.selectedObjectId
-                ? () => this.selectObject(object.id)
+                ? () => {
+                  this.selectDot(null)
+                  this.selectObject(object.id)
+                }
                 : (e) => {
                   if (
                     !e.target.classList.contains('ObjectInfo-input')
                   ) {
+                    this.selectDot(null)
                     this.selectObject(null)
                   }
                 }
@@ -59,7 +66,7 @@ class DotsEditor extends React.Component {
           <svg
             viewBox={this.state.viewBox.join(' ')}
             onMouseMove={this.updateDots}
-            onMouseUp={this.clearDotSelection}
+            onMouseUp={this.clearDraggedDotSelection}
             ref={this.svgRef}
           >
             {this.state.objects.map(this.renderObjects)}
@@ -69,7 +76,7 @@ class DotsEditor extends React.Component {
     )
   }
 
-  clearDotSelection = () => {
+  clearDraggedDotSelection = () => {
     this.setState({
       draggedDot: null
     })
@@ -115,12 +122,14 @@ class DotsEditor extends React.Component {
               y={cy}
               id={objectId}
               dataIndex={2}
+              selectedDot={this.state.selectedDot}
             />,
             <Dot
               x={ex}
               y={ey}
               id={objectId}
               dataIndex={4}
+              selectedDot={this.state.selectedDot}
             />
           ]
       }
@@ -158,6 +167,7 @@ class DotsEditor extends React.Component {
                   y={y}
                   id={objectId}
                   dataIndex={offset + i}
+                  selectedDot={this.state.selectedDot}
                 />
               )
             })
@@ -198,6 +208,7 @@ class DotsEditor extends React.Component {
                   y={y}
                   id={objectId}
                   dataIndex={offset + i}
+                  selectedDot={this.state.selectedDot}
                 />
               )
             })
@@ -207,6 +218,12 @@ class DotsEditor extends React.Component {
       default:
         throw new TypeError('Illegal component: ' + type)
     }
+  }
+
+  selectDot = (dot) => {
+    this.setState({
+      selectedDot: dot
+    })
   }
 
   selectObject = (objectId) => {
