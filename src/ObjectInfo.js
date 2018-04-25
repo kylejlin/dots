@@ -16,8 +16,8 @@ const ObjectInfo = ({ object, isSelected, onClick }) => {
       <div className="ObjectInfo-property">Stroke: {stroke || 'none'}</div>
       {pairs.map(pair => (
         <div className="ObjectInfo-property">
-          <input value={pair[0]} />
-          <input value={pair[1]} />
+          <input className="ObjectInfo-input" value={pair[0]} />
+          <input className="ObjectInfo-input" value={pair[1]} />
         </div>
       ))}
     </div>
