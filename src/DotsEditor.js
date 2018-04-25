@@ -46,14 +46,12 @@ class DotsEditor extends React.Component {
               selectDot={this.selectDot}
               onClick={object.id !== this.state.selectedObjectId
                 ? () => {
-                  this.selectDot(null)
                   this.selectObject(object.id)
                 }
                 : (e) => {
                   if (
                     !e.target.classList.contains('ObjectInfo-input')
                   ) {
-                    this.selectDot(null)
                     this.selectObject(null)
                   }
                 }

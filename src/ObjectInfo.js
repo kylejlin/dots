@@ -5,8 +5,15 @@ import extractPairs from './misc/extractPairs'
 const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectDot, onClick }) => {
   const [fill, stroke, ...rest] = object.data
   const pairs = extractPairs(rest)
+  
   const isDotSelected = (dataIndex) => {
-    return selectedDot && isObjectSelected && dataIndex === selectedDot.dataIndex
+    return (
+      isObjectSelected
+
+      && selectedDot
+      && object.id === selectedDot.id
+      && dataIndex === selectedDot.dataIndex
+    )
   }
   const createDotSelector = (dataIndex) => () => {
     selectDot({
