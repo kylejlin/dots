@@ -91,7 +91,9 @@ class DotsEditor extends React.Component {
 
     switch (type) {
       case 'circle': {
-        const [fill, stroke, cx, cy, ex, ey] = data
+        const fill = data.fillColor
+        const stroke = data.strokeColor
+        const [cx, cy, ex, ey] = data.points
 
         const radius = Math.hypot(cx - ex, cy - ey)
 
@@ -119,21 +121,22 @@ class DotsEditor extends React.Component {
               x={cx}
               y={cy}
               id={objectId}
-              dataIndex={2}
+              dataIndex={0}
               selectedDot={this.state.selectedDot}
             />,
             <Dot
               x={ex}
               y={ey}
               id={objectId}
-              dataIndex={4}
+              dataIndex={2}
               selectedDot={this.state.selectedDot}
             />
           ]
       }
       case 'straightPath': {
-        const [fill, stroke, ...pathData] = data
-        const offset = 2
+        const fill = data.fillColor
+        const stroke = data.strokeColor
+        const pathData = data.points
 
         return this.state.selectedObjectId !== objectId
           ? (
@@ -164,7 +167,7 @@ class DotsEditor extends React.Component {
                   x={x}
                   y={y}
                   id={objectId}
-                  dataIndex={offset + i}
+                  dataIndex={i}
                   selectedDot={this.state.selectedDot}
                 />
               )
@@ -173,8 +176,9 @@ class DotsEditor extends React.Component {
           )
       }
       case 'curvedPath': {
-        const [fill, stroke, ...pathData] = data
-        const offset = 2
+        const fill = data.fillColor
+        const stroke = data.strokeColor
+        const pathData = data.points
 
         return this.state.selectedObjectId !== objectId
           ? (
@@ -205,7 +209,7 @@ class DotsEditor extends React.Component {
                   x={x}
                   y={y}
                   id={objectId}
-                  dataIndex={offset + i}
+                  dataIndex={i}
                   selectedDot={this.state.selectedDot}
                 />
               )
@@ -248,10 +252,13 @@ class DotsEditor extends React.Component {
 
           return {
             ...object,
-            data: object.data
-              .slice(0, draggedDot.dataIndex)
-              .concat(newCoords)
-              .concat(object.data.slice(draggedDot.dataIndex + 2))
+            data: {
+              ...object.data,
+              points: object.data.points
+                .slice(0, draggedDot.dataIndex)
+                .concat(newCoords)
+                .concat(object.data.points.slice(draggedDot.dataIndex + 2))
+            }
           }
         }
         return object

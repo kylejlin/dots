@@ -3,9 +3,9 @@ import './ObjectInfo.css'
 import extractPairs from './misc/extractPairs'
 
 const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectDot, onClick }) => {
-  const [fill, stroke, ...rest] = object.data
-  const pairs = extractPairs(rest)
-  
+  const { fill, stroke, points } = object.data
+  const pairs = extractPairs(points)
+
   const isDotSelected = (dataIndex) => {
     return (
       isObjectSelected
@@ -32,10 +32,10 @@ const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectD
       <div className="ObjectInfo-property">Stroke: {stroke || 'none'}</div>
       {pairs.map((pair, pairIndex) => (
         <div
-          className={'ObjectInfo-property' + (isDotSelected((pairIndex + 1) * 2) ? ' ObjectInfo-selected-property' : '')}
+          className={'ObjectInfo-property' + (isDotSelected(pairIndex * 2) ? ' ObjectInfo-selected-property' : '')}
         >
-          <input className="ObjectInfo-input" value={pair[0]} onFocus={createDotSelector((pairIndex + 1) * 2)} />
-          <input className="ObjectInfo-input" value={pair[1]} onFocus={createDotSelector((pairIndex + 1) * 2)} />
+          <input className="ObjectInfo-input" value={pair[0]} onFocus={createDotSelector(pairIndex * 2)} />
+          <input className="ObjectInfo-input" value={pair[1]} onFocus={createDotSelector(pairIndex * 2)} />
         </div>
       ))}
     </div>
