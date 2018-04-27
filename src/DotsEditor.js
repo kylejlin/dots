@@ -1,12 +1,14 @@
 import React from 'react'
 import './DotsEditor.css'
+
+import DotFactory from './DotFactory'
+import ObjectInfo from './ObjectInfo'
+import DotsObject from './DotsObject'
+
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
-import calculateCurvedPath from './calculateCurvedPath'
-import calculateStraightPath from './calculateStraightPath'
-import DotFactory from './DotFactory'
+
 import convertClientToLocal from './convertClientToLocal'
-import ObjectInfo from './ObjectInfo'
 
 class DotsEditor extends React.Component {
   constructor(props) {
@@ -67,7 +69,11 @@ class DotsEditor extends React.Component {
             onMouseUp={this.clearDraggedDotSelection}
             ref={this.svgRef}
           >
-            {this.state.objects.map(this.renderObjects)}
+            {this.state.objects.map((object) => (
+              <DotsObject object={object} selectObject={this.selectObject} />
+            ))}
+
+            {this.renderDots(this.state.objects.find(o => o.id === this.state.selectedObjectId) || null)}
           </svg>
         </div>
       </div>
@@ -80,7 +86,11 @@ class DotsEditor extends React.Component {
     })
   }
 
-  renderObjects = (object) => {
+  renderDots = (object) => {
+    if (object === null) {
+      return
+    }
+
     const {
       id: objectId,
       type,
@@ -91,131 +101,68 @@ class DotsEditor extends React.Component {
 
     switch (type) {
       case 'circle': {
-        const fill = data.fillColor
-        const stroke = data.strokeColor
         const [cx, cy, ex, ey] = data.points
 
-        const radius = Math.hypot(cx - ex, cy - ey)
-
-        return this.state.selectedObjectId !== objectId
-          ? (
-            <circle
-              fill={fill}
-              stroke={stroke}
-              r={radius}
-              cx={cx}
-              cy={cy}
-              onClick={() => this.selectObject(objectId)}
-            />
-          )
-          : [
-            <circle
-              fill={fill}
-              stroke={stroke}
-              r={radius}
-              cx={cx}
-              cy={cy}
-              onClick={() => this.selectObject(null)}
-            />,
-            <Dot
-              x={cx}
-              y={cy}
-              id={objectId}
-              dataIndex={0}
-              selectedDot={this.state.selectedDot}
-            />,
-            <Dot
-              x={ex}
-              y={ey}
-              id={objectId}
-              dataIndex={2}
-              selectedDot={this.state.selectedDot}
-            />
-          ]
+        return [
+          <Dot
+            x={cx}
+            y={cy}
+            id={objectId}
+            dataIndex={0}
+            selectedDot={this.state.selectedDot}
+          />,
+          <Dot
+            x={ex}
+            y={ey}
+            id={objectId}
+            dataIndex={2}
+            selectedDot={this.state.selectedDot}
+          />
+        ]
       }
       case 'straightPath': {
-        const fill = data.fillColor
-        const stroke = data.strokeColor
         const pathData = data.points
 
-        return this.state.selectedObjectId !== objectId
-          ? (
-            <path
-              fill={fill}
-              stroke={stroke}
-              d={calculateStraightPath(pathData)}
-              onClick={() => this.selectObject(objectId)}
-            />
-          )
-          : [
-            <path
-              fill={fill}
-              stroke={stroke}
-              d={calculateStraightPath(pathData)}
-              onClick={() => this.selectObject(null)}
-            />
-          ].concat(
-            pathData.map(({}, i, pathData) => {
-              if (i % 2 === 1) {
-                return null
-              }
+        return pathData.map(({}, i, pathData) => {
+          if (i % 2 === 1) {
+            return null
+          }
 
-              const x = pathData[i]
-              const y = pathData[i + 1]
-              return (
-                <Dot
-                  x={x}
-                  y={y}
-                  id={objectId}
-                  dataIndex={i}
-                  selectedDot={this.state.selectedDot}
-                />
-              )
-            })
-            .filter(thing => thing !== null)
+          const x = pathData[i]
+          const y = pathData[i + 1]
+          return (
+            <Dot
+              x={x}
+              y={y}
+              id={objectId}
+              dataIndex={i}
+              selectedDot={this.state.selectedDot}
+            />
           )
+        })
+        .filter(thing => thing !== null)
       }
       case 'curvedPath': {
-        const fill = data.fillColor
-        const stroke = data.strokeColor
         const pathData = data.points
 
-        return this.state.selectedObjectId !== objectId
-          ? (
-            <path
-              fill={fill}
-              stroke={stroke}
-              d={calculateCurvedPath(pathData)}
-              onClick={() => this.selectObject(objectId)}
-            />
-          )
-          : [
-            <path
-              fill={fill}
-              stroke={stroke}
-              d={calculateCurvedPath(pathData)}
-              onClick={() => this.selectObject(null)}
-            />
-          ].concat(
-            pathData.map(({}, i, pathData) => {
-              if (i % 2 === 1) {
-                return null
-              }
+        return pathData.map(({}, i, pathData) => {
+          if (i % 2 === 1) {
+            return null
+          }
 
-              const x = pathData[i]
-              const y = pathData[i + 1]
-              return (
-                <Dot
-                  x={x}
-                  y={y}
-                  id={objectId}
-                  dataIndex={i}
-                  selectedDot={this.state.selectedDot}
-                />
-              )
-            })
-            .filter(thing => thing !== null)
+          const x = pathData[i]
+          const y = pathData[i + 1]
+          return (
+            <Dot
+              x={x}
+              y={y}
+              id={objectId}
+              dataIndex={i}
+              selectedDot={this.state.selectedDot}
+            />
           )
+        })
+        .filter(thing => thing !== null)
       }
       default:
         throw new TypeError('Illegal component: ' + type)
