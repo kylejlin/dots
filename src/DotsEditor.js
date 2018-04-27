@@ -5,6 +5,8 @@ import DotFactory from './DotFactory'
 import ObjectInfo from './ObjectInfo'
 import DotsObject from './DotsObject'
 
+import logo from './logo.svg'
+
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
 
@@ -34,8 +36,8 @@ class DotsEditor extends React.Component {
   render() {
     return (
       <div className="DotsEditor">
-        <div className="DotsEditor-header">
-          DotsEditor - An SVG Editor
+        <div className="DotsEditor-toolbar">
+          <img src={logo} />
         </div>
 
         <div className="DotsEditor-editor">

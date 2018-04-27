@@ -1,14 +1,7 @@
-.DotsEditor-header {
+.DotsEditor-toolbar {
   background-color: var(--dark-black);
-  color: var(--white);
 
   position: fixed;
-
-  font-size: 5vh;
-  padding: 2.5vh;
-
-  width: 100vw;
-  height: 10vh;
 }
 
 .DotsEditor-editor, .DotsEditor-result {
@@ -26,6 +19,15 @@
 }
 
 @media (orientation: landscape) {
+  .DotsEditor-toolbar {
+    width: 100vw;
+    height: 10vh;
+  }
+
+  .DotsEditor-toolbar img {
+    height: 10vh;
+  }
+
   .DotsEditor-editor, .DotsEditor-result {
     width: 50vw;
     height: 90vh;
@@ -42,14 +44,23 @@
 }
 
 @media (orientation: portrait) {
+  .DotsEditor-toolbar {
+    width: 15vw;
+    height: 100vh;
+  }
+
+  .DotsEditor-toolbar img {
+    width: 15vw;
+  }
+
   .DotsEditor-editor, .DotsEditor-result {
-    width: 100vw;
-    height: 45vh;
-    left: 0;
+    width: 85vw;
+    height: 50vh;
+    left: 15vw;
   }
 
   .DotsEditor-editor {
-    top: 10vh;
+    top: 0;
   }
 
   .DotsEditor-result {
