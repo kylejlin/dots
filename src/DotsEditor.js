@@ -37,7 +37,7 @@ class DotsEditor extends React.Component {
     return (
       <div className="DotsEditor">
         <div className="DotsEditor-toolbar">
-          <img src={logo} />
+          <img src={logo} alt="Dots logo" />
         </div>
 
         <div className="DotsEditor-editor">
