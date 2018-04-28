@@ -1,0 +1,27 @@
+.Toolbar {
+  background-color: var(--dark-black);
+
+  position: fixed;
+}
+
+@media (orientation: landscape) {
+  .Toolbar {
+    width: 100vw;
+    height: 10vh;
+  }
+
+  .Toolbar img {
+    height: 10vh;
+  }
+}
+
+@media (orientation: portrait) {
+  .Toolbar {
+    width: 15vw;
+    height: 100vh;
+  }
+
+  .Toolbar img {
+    width: 15vw;
+  }
+}

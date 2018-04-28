@@ -1,31 +1,43 @@
 import React from 'react'
 import './DotsEditor.css'
 
-import ToolbarButton from './ToolbarButton'
+import Toolbar from './Toolbar'
 import DotFactory from './DotFactory'
 import ObjectInfo from './ObjectInfo'
 import DotsObject from './DotsObject'
 
+import backIcon from './toolbarIcons/placeholder.svg'
 import logo from './toolbarIcons/logo.svg'
 import newDotIcon from './toolbarIcons/placeholder.svg'
+import openAddObjectToolbarIcon from './toolbarIcons/placeholder.svg'
+import selectCreateStraightPathIcon from './toolbarIcons/placeholder.svg'
+import selectCreateCurvedPathIcon from './toolbarIcons/placeholder.svg'
+import selectCreateCircleIcon from './toolbarIcons/placeholder.svg'
 
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
 
-import isObjectTypePointListFixedLength from './isObjectTypePointListFixedLength'
+import pointListLengthRanges from './pointListLengthRanges'
 import convertClientToLocal from './convertClientToLocal'
+import getLowestPositiveUnusedInt from './getLowestPositiveUnusedInt'
 
 class DotsEditor extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      toolbarType: 'main',
       viewBox: [0, 0, 100, 100],
       objects: defaultObjects,
       draggedDot: null,
       selectedObjectId: null,
       selectedDot: null,
-      config: defaultConfig
+      config: defaultConfig,
+      pendingCreation: {
+        type: null,
+        points: [],
+        indexToAppendTo: -1
+      }
     }
 
     this.state.Dot = DotFactory(
@@ -39,21 +51,20 @@ class DotsEditor extends React.Component {
   render() {
     return (
       <div className="DotsEditor">
-        <div className="DotsEditor-toolbar">
-          <img src={logo} alt="Dots logo" />
+        <Toolbar
+          editor={this}
+          icons={{
+            backIcon,
 
-          <ToolbarButton
-            src={newDotIcon}
-            alt="New dot"
-            isEnabled={
-              this.state.objects.find(o => o.id === this.state.selectedObjectId)
-              && this.state.selectedDot !== null
-              && this.state.selectedDot.id === this.state.selectedObjectId
-              && !isObjectTypePointListFixedLength(this.state.objects.find(o => o.id === this.state.selectedObjectId).type)
-            }
-            onClick={this.addDot}
-          />
-        </div>
+            logo,
+            newDotIcon,
+            openAddObjectToolbarIcon,
+
+            selectCreateStraightPathIcon,
+            selectCreateCurvedPathIcon,
+            selectCreateCircleIcon
+          }}
+        />
 
         <div className="DotsEditor-editor">
           {this.state.objects.map((object) => (
@@ -82,6 +93,7 @@ class DotsEditor extends React.Component {
         <div className="DotsEditor-result">
           <svg
             viewBox={this.state.viewBox.join(' ')}
+            onClick={this.addPointIfApplicable}
             onMouseMove={this.updateDots}
             onMouseUp={this.clearDraggedDotSelection}
             ref={this.svgRef}
@@ -121,10 +133,96 @@ class DotsEditor extends React.Component {
     })
   }
 
+  addObject = (pendingCreation) => {
+    const fillColor = this.state.config.newObjectFillColor
+    const strokeColor = this.state.config.newObjectStrokeColor
+
+    const takenIds = this.state.objects.map(o => o.id)
+    const newId = getLowestPositiveUnusedInt(takenIds)
+
+    const flattenedPoints = pendingCreation.points.reduce((arr, point) => {
+      return arr.concat(point)
+    }, [])
+
+    const { indexToAppendTo } = pendingCreation
+
+    switch (pendingCreation.type) {
+      case 'circle':
+      case 'curvedPath':
+      case 'straightPath':
+        const newObject = {
+          type: pendingCreation.type,
+          id: newId,
+          data: {
+            fillColor,
+            strokeColor,
+            points: flattenedPoints
+          }
+        }
+        this.setState(prevState => ({
+          objects: prevState.objects.slice(0, indexToAppendTo + 1)
+            .concat([newObject])
+            .concat(prevState.objects.slice(indexToAppendTo + 1))
+        }))
+        return newObject
+      default:
+        throw new TypeError('Illegal object type: ' + pendingCreation.type)
+    }
+  }
+
+  addPointIfApplicable = (e) => {
+    if (this.state.pendingCreation.type === null) {
+      return
+    }
+
+    const { points, type } = this.state.pendingCreation
+
+    const { clientX, clientY } = e
+    const svg = this.svgRef.current
+    const newPoint = convertClientToLocal([clientX, clientY], svg)
+
+    const newPendingCreation = {
+      ...this.state.pendingCreation,
+      points: points.concat([newPoint])
+    }
+
+    if (
+      pointListLengthRanges[type].min === newPendingCreation.points.length
+    ) {
+      const newObject = this.addObject(newPendingCreation)
+
+      this.setState(prevState => ({
+        pendingCreation: {
+          ...prevState.pendingCreation,
+          type: null
+        },
+        selectedObjectId: newObject.id,
+        selectedDot: newObject.data.points[newObject.data.points.length - 1]
+      }))
+
+      return
+    }
+
+    this.setState({
+      pendingCreation: newPendingCreation
+    })
+  }
+
   clearDraggedDotSelection = () => {
     this.setState({
       draggedDot: null
     })
+  }
+
+  openAddObjectToolbar = () => {
+    this.setState(prevState => ({
+      toolbarType: 'addObject',
+      pendingCreation: {
+        type: null,
+        points: [],
+        indexToAppendTo: prevState.objects.findIndex(o => o.id === prevState.selectedObjectId)
+      }
+    }))
   }
 
   renderDots = (object) => {
@@ -220,6 +318,15 @@ class DotsEditor extends React.Component {
     this.setState({
       selectedObjectId: objectId
     })
+  }
+
+  setPendingCreationType = (type) => {
+    this.setState(prevState => ({
+      pendingCreation: {
+        ...prevState.pendingCreation,
+        type
+      }
+    }))
   }
 
   updateDots = (e) => {
