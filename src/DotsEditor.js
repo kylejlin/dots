@@ -6,8 +6,8 @@ import DotFactory from './DotFactory'
 import ObjectInfo from './ObjectInfo'
 import DotsObject from './DotsObject'
 
-import logo from './logo.svg'
-import newDotIcon from './logo.svg'
+import logo from './toolbarIcons/logo.svg'
+import newDotIcon from './toolbarIcons/placeholder.svg'
 
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
