@@ -28,8 +28,16 @@ const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectD
       onClick={onClick}
     >
       <div className="ObjectInfo-header">{object.type}</div>
-      <div className="ObjectInfo-property">Fill: {fill}</div>
-      <div className="ObjectInfo-property">Stroke: {stroke || 'none'}</div>
+      <div className="ObjectInfo-property">
+        Fill:
+        {' '}
+        <input value={object.data.fillColor} />
+      </div>
+      <div className="ObjectInfo-property">
+        Stroke:
+        {' '}
+        <input value={object.data.strokeColor} />
+      </div>
       {pairs.map((pair, pairIndex) => (
         <div
           className={'ObjectInfo-property' + (isDotSelected(pairIndex * 2) ? ' ObjectInfo-selected-property' : '')}
