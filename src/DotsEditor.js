@@ -1,15 +1,18 @@
 import React from 'react'
 import './DotsEditor.css'
 
+import ToolbarButton from './ToolbarButton'
 import DotFactory from './DotFactory'
 import ObjectInfo from './ObjectInfo'
 import DotsObject from './DotsObject'
 
 import logo from './logo.svg'
+import newDotIcon from './logo.svg'
 
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
 
+import isObjectTypePointListFixedLength from './isObjectTypePointListFixedLength'
 import convertClientToLocal from './convertClientToLocal'
 
 class DotsEditor extends React.Component {
@@ -38,6 +41,18 @@ class DotsEditor extends React.Component {
       <div className="DotsEditor">
         <div className="DotsEditor-toolbar">
           <img src={logo} alt="Dots logo" />
+
+          <ToolbarButton
+            src={newDotIcon}
+            alt="New dot"
+            isEnabled={
+              this.state.objects.find(o => o.id === this.state.selectedObjectId)
+              && this.state.selectedDot !== null
+              && this.state.selectedDot.id === this.state.selectedObjectId
+              && !isObjectTypePointListFixedLength(this.state.objects.find(o => o.id === this.state.selectedObjectId).type)
+            }
+            onClick={this.addDot}
+          />
         </div>
 
         <div className="DotsEditor-editor">
@@ -80,6 +95,30 @@ class DotsEditor extends React.Component {
         </div>
       </div>
     )
+  }
+
+  addDot = () => {
+    this.setState((prevState) => {
+      const { selectedObjectId, selectedDot } = prevState
+
+      return {
+        objects: prevState.objects.map((object) => {
+          if (object.id !== selectedObjectId) {
+            return object
+          }
+
+          return {
+            ...object,
+            data: {
+              ...object.data,
+              points: object.data.points.slice(0, selectedDot.dataIndex + 2)
+                .concat([50, 50])
+                .concat(object.data.points.slice(selectedDot.dataIndex + 2))
+            }
+          }
+        })
+      }
+    })
   }
 
   clearDraggedDotSelection = () => {
