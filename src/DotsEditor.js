@@ -1,6 +1,8 @@
 import React from 'react'
 import './DotsEditor.css'
 
+import { SketchPicker } from 'react-color'
+
 import Toolbar from './Toolbar'
 import DotFactory from './DotFactory'
 import ObjectInfo from './ObjectInfo'
@@ -37,7 +39,8 @@ class DotsEditor extends React.Component {
         type: null,
         points: [],
         indexToAppendTo: -1
-      }
+      },
+      ongoingColorEdit: null
     }
 
     this.state.Dot = DotFactory(
@@ -67,6 +70,31 @@ class DotsEditor extends React.Component {
         />
 
         <div className="DotsEditor-editor">
+          {(() => {
+            const { ongoingColorEdit } = this.state
+
+            if (ongoingColorEdit === null) {
+              return null
+            }
+
+            const editedObject = this.state.objects.find(o => o.id === ongoingColorEdit.objectId)
+
+            const { editedColor } = ongoingColorEdit
+
+            const color = editedObject.data[editedColor]
+
+            return [
+              <div
+                className="DotsEditor-color-picker-overlay"
+                onClick={() => this.setState({ ongoingColorEdit: null })}
+              />,
+
+              <div className="DotsEditor-color-picker-container">
+                <SketchPicker color={color} onChange={this.updateColor} />
+              </div>
+            ]
+          })()}
+
           {this.state.objects.map((object) => (
             <ObjectInfo
               object={object}
@@ -86,6 +114,15 @@ class DotsEditor extends React.Component {
                   }
                 }
               }
+              onEditColor={(fillOrStroke, objectId) => {
+                this.setState({
+                  selectedObjectId: objectId,
+                  ongoingColorEdit: {
+                    editedColor: fillOrStroke,
+                    objectId
+                  }
+                })
+              }}
             />
           ))}
         </div>
@@ -326,6 +363,35 @@ class DotsEditor extends React.Component {
         ...prevState.pendingCreation,
         type
       }
+    }))
+  }
+
+  updateColor = ({ rgb: { r, g, b, a } }) => {
+    const pad = (str) => str.length === 2 ? str : '0' + str
+
+    const rgb = [r, g, b]
+      .map(int => int.toString(16))
+      .map(pad)
+      .join('')
+
+    const alpha = pad(Math.floor(a * 255).toString(16))
+
+    const newColor = '#' + rgb + alpha
+
+    this.setState(prevState => ({
+      objects: prevState.objects.map((object) => {
+        if (object.id !== prevState.ongoingColorEdit.objectId) {
+          return object
+        }
+
+        return {
+          ...object,
+          data: {
+            ...object.data,
+            [prevState.ongoingColorEdit.editedColor]: newColor
+          }
+        }
+      })
     }))
   }
 

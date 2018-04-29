@@ -2,8 +2,8 @@ import React from 'react'
 import './ObjectInfo.css'
 import extractPairs from './misc/extractPairs'
 
-const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectDot, onClick }) => {
-  const { fill, stroke, points } = object.data
+const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectDot, onClick, onEditColor }) => {
+  const { fillColor, strokeColor, points } = object.data
   const pairs = extractPairs(points)
 
   const isDotSelected = (dataIndex) => {
@@ -31,12 +31,20 @@ const ObjectInfo = ({ object, isSelected: isObjectSelected, selectedDot, selectD
       <div className="ObjectInfo-property">
         Fill:
         {' '}
-        <input value={object.data.fillColor} />
+        <input
+          className="ObjectInfo-input"
+          value={fillColor}
+          onFocus={() => onEditColor('fillColor', object.id)}
+        />
       </div>
       <div className="ObjectInfo-property">
         Stroke:
         {' '}
-        <input value={object.data.strokeColor} />
+        <input
+          className="ObjectInfo-input"
+          value={strokeColor}
+          onFocus={() => onEditColor('strokeColor', object.id)}
+          />
       </div>
       {pairs.map((pair, pairIndex) => (
         <div
