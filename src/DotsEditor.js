@@ -12,6 +12,7 @@ import backIcon from './toolbarIcons/placeholder.svg'
 import logo from './toolbarIcons/logo.svg'
 import newDotIcon from './toolbarIcons/placeholder.svg'
 import openAddObjectToolbarIcon from './toolbarIcons/placeholder.svg'
+import deleteObjectIcon from './toolbarIcons/placeholder.svg'
 import selectCreateStraightPathIcon from './toolbarIcons/placeholder.svg'
 import selectCreateCurvedPathIcon from './toolbarIcons/placeholder.svg'
 import selectCreateCircleIcon from './toolbarIcons/placeholder.svg'
@@ -62,6 +63,7 @@ class DotsEditor extends React.Component {
             logo,
             newDotIcon,
             openAddObjectToolbarIcon,
+            deleteObjectIcon,
 
             selectCreateStraightPathIcon,
             selectCreateCurvedPathIcon,
@@ -249,6 +251,13 @@ class DotsEditor extends React.Component {
     this.setState({
       draggedDot: null
     })
+  }
+
+  deleteObject = () => {
+    this.setState(prevState => ({
+      selectedObjectId: null,
+      objects: prevState.objects.filter(o => o.id !== prevState.selectedObjectId)
+    }))
   }
 
   openAddObjectToolbar = () => {

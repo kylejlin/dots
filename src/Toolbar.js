@@ -20,6 +20,7 @@ const getToolbarItems = (
 
     newDotIcon,
     openAddObjectToolbarIcon,
+    deleteObjectIcon,
 
     selectCreateStraightPathIcon,
     selectCreateCurvedPathIcon,
@@ -48,6 +49,15 @@ const getToolbarItems = (
             editor.state.objects.find(o => o.id === editor.state.selectedObjectId)
           }
           onClick={editor.openAddObjectToolbar}
+        />,
+
+        <ToolbarButton
+          src={deleteObjectIcon}
+          alt="Delete object"
+          isEnabled={
+            editor.state.objects.find(o => o.id === editor.state.selectedObjectId)
+          }
+          onClick={editor.deleteObject}
         />
       ]
     case 'addObject':
