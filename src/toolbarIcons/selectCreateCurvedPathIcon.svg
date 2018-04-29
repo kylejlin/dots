@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle fill="#007b1dff" stroke="#00000000" r="50" cx="50" cy="50"></circle>
+  <path fill="#aaaaaaff" stroke="#00000000" d="M39,27C39,27,63.166666666666664,25.666666666666668,62,28C60.833333333333336,30.333333333333332,34,34.333333333333336,32,41C30,47.666666666666664,51.666666666666664,65.5,50,68C48.333333333333336,70.5,26.5,62.833333333333336,22,56C17.5,49.166666666666664,20.166666666666668,31.833333333333332,23,27C25.833333333333332,22.166666666666668,39,27,39,27"></path>
+  <path fill="#aaaaaaff" stroke="#eeeeeeff" d="M 58 53 L 85 54"></path>
+  <path fill="#aaaaaaff" stroke="#eeeeeeff" d="M 71 67 L 72 41"></path>
+  <circle fill="#ccc" stroke="#08b" r="3" cx="39" cy="27"></circle><circle fill="#ccc" stroke="#08b" r="3" cx="62" cy="28"></circle><circle fill="#ccc" stroke="#08b" r="3" cx="32" cy="41"></circle><circle fill="#ccc" stroke="#08b" r="3" cx="50" cy="68"></circle><circle fill="#ccc" stroke="#08b" r="3" cx="22" cy="56"></circle><circle fill="#ccc" stroke="#08b" r="3" cx="23" cy="27"></circle>
+</svg>
