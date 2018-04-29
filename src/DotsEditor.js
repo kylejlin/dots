@@ -8,7 +8,7 @@ import DotFactory from './DotFactory'
 import ObjectInfo from './ObjectInfo'
 import DotsObject from './DotsObject'
 
-import backIcon from './toolbarIcons/placeholder.svg'
+import backIcon from './toolbarIcons/backIcon.svg'
 import logo from './toolbarIcons/logo.svg'
 import newDotIcon from './toolbarIcons/newDotIcon.svg'
 import openAddObjectToolbarIcon from './toolbarIcons/openAddObjectToolbarIcon.svg'
