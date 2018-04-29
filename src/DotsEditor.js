@@ -10,7 +10,7 @@ import DotsObject from './DotsObject'
 
 import backIcon from './toolbarIcons/placeholder.svg'
 import logo from './toolbarIcons/logo.svg'
-import newDotIcon from './toolbarIcons/placeholder.svg'
+import newDotIcon from './toolbarIcons/newDotIcon.svg'
 import openAddObjectToolbarIcon from './toolbarIcons/openAddObjectToolbarIcon.svg'
 import deleteObjectIcon from './toolbarIcons/deleteObjectIcon.svg'
 import selectCreateStraightPathIcon from './toolbarIcons/placeholder.svg'
