@@ -15,7 +15,7 @@ import openAddObjectToolbarIcon from './toolbarIcons/openAddObjectToolbarIcon.sv
 import deleteObjectIcon from './toolbarIcons/deleteObjectIcon.svg'
 import selectCreateStraightPathIcon from './toolbarIcons/placeholder.svg'
 import selectCreateCurvedPathIcon from './toolbarIcons/placeholder.svg'
-import selectCreateCircleIcon from './toolbarIcons/placeholder.svg'
+import selectCreateCircleIcon from './toolbarIcons/selectCreateCircleIcon.svg'
 
 import defaultObjects from './defaultObjects'
 import defaultConfig from './defaultConfig'
